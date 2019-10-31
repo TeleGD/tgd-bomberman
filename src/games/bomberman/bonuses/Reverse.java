@@ -51,7 +51,7 @@ public class Reverse extends Bonus {
 	public void activate(Player player) {
 		if (!activated) {
 			this.activated = true;
-			player.setReversed( - player.getReversed());
+			player.setReversed(-player.getReversed());
 			this.player = player;
 			duration = 7000;
 			sound.play(1, .4f);

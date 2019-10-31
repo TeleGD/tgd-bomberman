@@ -53,7 +53,7 @@ public class Range extends Bonus {
 				player.addRange(1);
 				sound0.play(1, 1f);
 			} else {
-				player.addRange( - 1);
+				player.addRange(-1);
 				sound1.play(1, .4f);
 			}
 			this.deleted = true;
