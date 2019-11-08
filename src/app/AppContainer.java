@@ -42,11 +42,19 @@ public class AppContainer extends AppGameContainer {
 
 	@Override
 	public void setDisplayMode (int width, int height, boolean fullscreen) throws SlickException {
+		int screenWidth = AppContainer.screenWidth;
+		int screenHeight = AppContainer.screenHeight;
+		if (width == 0 && height == 0) {
+			width = screenWidth;
+			height = screenHeight;
+		} else if (width == 0) {
+			width = height * screenWidth / screenHeight;
+		} else if (height == 0) {
+			height = width * screenHeight / screenWidth;
+		}
 		this.windowWidth = width;
 		this.windowHeight = height;
 		if (fullscreen) {
-			int screenWidth = AppContainer.screenWidth;
-			int screenHeight = AppContainer.screenHeight;
 			int a = screenWidth * height;
 			int b = screenHeight * width;
 			int scaledWidth = screenWidth;
@@ -54,11 +62,9 @@ public class AppContainer extends AppGameContainer {
 			if (a < b) {
 				this.scale = (float) scaledWidth / width;
 				scaledHeight = (int) (height * this.scale);
-			} else if (b < a) {
+			} else {
 				this.scale = (float) scaledHeight / height;
 				scaledWidth = (int) (width * this.scale);
-			} else {
-				this.scale = 1;
 			}
 			this.offsetX = (screenWidth - scaledWidth) / 2;
 			this.offsetY = (screenHeight - scaledHeight) / 2;
