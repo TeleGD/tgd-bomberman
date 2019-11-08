@@ -21,6 +21,10 @@ public class AppOutput extends Graphics {
 		super.screenHeight = height;
 	}
 
+	void clearCanvasClip () {
+		GL.glScissor (0, 0, super.screenWidth, super.screenHeight);
+	}
+
 	void setCanvasClip (float scale, float offsetX, float offsetY, int canvasWidth, int canvasHeight) {
 		this.scale = scale;
 		this.offsetX = offsetX;

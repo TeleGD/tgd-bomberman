@@ -2,7 +2,9 @@ package app;
 
 import java.awt.DisplayMode;
 import java.awt.GraphicsEnvironment;
+import java.nio.FloatBuffer;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
@@ -141,11 +143,21 @@ public class AppContainer extends AppGameContainer {
 		}
 		if (super.hasFocus () || super.getAlwaysRender ()) {
 			if (super.clearEachFrame) {
+				((AppOutput) this.graphics).clearCanvasClip ();
+				FloatBuffer buffer = BufferUtils.createFloatBuffer (16);
+				GL.glGetFloat (SGL.GL_COLOR_CLEAR_VALUE, buffer);
+				GL.glClearColor (0, 0, 0, 1);
 				GL.glClear (SGL.GL_COLOR_BUFFER_BIT | SGL.GL_DEPTH_BUFFER_BIT);
+				GL.glLoadIdentity ();
+				GL.glEnable (SGL.GL_SCISSOR_TEST);
+				((AppOutput) this.graphics).restoreCanvasClip ();
+				GL.glClearColor(buffer.get (), buffer.get (), buffer.get (), buffer.get ());
+				GL.glClear (SGL.GL_COLOR_BUFFER_BIT | SGL.GL_DEPTH_BUFFER_BIT);
+			} else {
+				GL.glLoadIdentity ();
+				GL.glEnable (SGL.GL_SCISSOR_TEST);
+				((AppOutput) this.graphics).restoreCanvasClip ();
 			}
-			GL.glLoadIdentity ();
-			GL.glEnable (SGL.GL_SCISSOR_TEST);
-			((AppOutput) this.graphics).restoreCanvasClip ();
 			this.graphics.resetTransform ();
 			this.graphics.resetFont ();
 			this.graphics.resetLineWidth ();
