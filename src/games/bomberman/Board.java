@@ -44,8 +44,9 @@ public class Board {
 					if (cases[i][j] == null) {
 						if (Math.random() > .7) {
 							cases[i][j] = new Ground(w, i, j);
+						} else {
+							cases[i][j] = new DestructibleWall(w, i, j);
 						}
-						else cases[i][j] = new DestructibleWall(w, i, j);
 					}
 				}
 			}

@@ -180,8 +180,7 @@ public class Player {
 		}
 		if (moveUp || moveDown || moveRight || moveLeft) {
 			move = true;
-		}
-		else {
+		} else {
 			move = false;
 		}
 		if (bombDropped) {
@@ -389,7 +388,7 @@ public class Player {
 			bouclier = false;
 		} else {
 			if (!invincible) {
-				addLife( - 1);
+				addLife(-1);
 				invincible = true;
 			}
 		}
