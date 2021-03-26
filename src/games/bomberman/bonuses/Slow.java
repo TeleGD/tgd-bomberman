@@ -3,9 +3,10 @@ package games.bomberman.bonuses;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.Sound;
+import org.newdawn.slick.openal.Audio;
 import org.newdawn.slick.state.StateBasedGame;
+
+import app.AppLoader;
 
 import games.bomberman.Bonus;
 import games.bomberman.Player;
@@ -17,17 +18,13 @@ public class Slow extends Bonus {
 	private boolean deleted;
 	private Player player;
 	private int duration;
-	private static Sound sound;
+	private static Audio sound;
 	private static Image sprite;
 	private World w;
 
 	static {
-		try {
-			sprite = new Image(World.DIRECTORY_IMAGES + "bonus_slow.png");
-			sound = new Sound(World.DIRECTORY_SOUNDS_BONUS + "gary.ogg");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		sprite = AppLoader.loadPicture(World.DIRECTORY_IMAGES + "bonus_slow.png");
+		sound = AppLoader.loadAudio(World.DIRECTORY_SOUNDS_BONUS + "gary.ogg");
 	}
 
 	public Slow(World world, int caseX, int caseY) {
@@ -60,7 +57,7 @@ public class Slow extends Bonus {
 			}
 			duration = 7000;
 			this.player = player;
-			sound.play(1, .4f);
+			sound.playAsSoundEffect(1f, .4f, false);
 		}
 	}
 

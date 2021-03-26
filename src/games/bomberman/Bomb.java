@@ -3,9 +3,10 @@ package games.bomberman;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.Sound;
+import org.newdawn.slick.openal.Audio;
 import org.newdawn.slick.state.StateBasedGame;
+
+import app.AppLoader;
 
 import games.bomberman.bonuses.Accelerate;
 import games.bomberman.bonuses.Capacity;
@@ -41,19 +42,15 @@ public class Bomb {
 	private int tempsExplosion = 700;
 	private boolean detruite = false;
 	private boolean explose = false;
-	private static Sound sound;
+	private static Audio sound;
 	private World w;
 
 	static {
-		try {
-			sprite = new Image(World.DIRECTORY_IMAGES + "bombe.png");
-			bord = new Image(World.DIRECTORY_IMAGES + "fin_deflagration.png");
-			milieu = new Image(World.DIRECTORY_IMAGES + "deflagration.png");
-			centre = new Image(World.DIRECTORY_IMAGES + "bombe_explose.png");
-			sound = new Sound(World.DIRECTORY_SOUNDS_BOMBS + "explo_forte.ogg");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		sprite = AppLoader.loadPicture(World.DIRECTORY_IMAGES + "bombe.png");
+		bord = AppLoader.loadPicture(World.DIRECTORY_IMAGES + "fin_deflagration.png");
+		milieu = AppLoader.loadPicture(World.DIRECTORY_IMAGES + "deflagration.png");
+		centre = AppLoader.loadPicture(World.DIRECTORY_IMAGES + "bombe_explose.png");
+		sound = AppLoader.loadAudio(World.DIRECTORY_SOUNDS_BOMBS + "explo_forte.ogg");
 	}
 
 	public Bomb(World world, int numJoueur, int i, int j, int porteep, int tpsRestantp) {
@@ -239,7 +236,7 @@ public class Bomb {
 				d++;
 			}
 		}
-		sound.play(1, .8f);
+		sound.playAsSoundEffect(1f, .8f, false);
 	}
 
 	public int getI() {

@@ -3,9 +3,10 @@ package games.bomberman.bonuses;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.Sound;
+import org.newdawn.slick.openal.Audio;
 import org.newdawn.slick.state.StateBasedGame;
+
+import app.AppLoader;
 
 import games.bomberman.Bonus;
 import games.bomberman.Player;
@@ -18,15 +19,11 @@ public class Reverse extends Bonus {
 	private Player player;
 	private int duration;
 	private static Image sprite;
-	private static Sound sound;
+	private static Audio sound;
 
 	static {
-		try {
-			sprite = new Image(World.DIRECTORY_IMAGES + "bonus_reverse.png");
-			sound = new Sound(World.DIRECTORY_SOUNDS_BONUS + "interf.ogg");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		sprite = AppLoader.loadPicture(World.DIRECTORY_IMAGES + "bonus_reverse.png");
+		sound = AppLoader.loadAudio(World.DIRECTORY_SOUNDS_BONUS + "interf.ogg");
 	}
 
 	public Reverse(int caseX, int caseY) {
@@ -54,7 +51,7 @@ public class Reverse extends Bonus {
 			player.setReversed(-player.getReversed());
 			this.player = player;
 			duration = 7000;
-			sound.play(1, .4f);
+			sound.playAsSoundEffect(1f, .4f, false);
 		}
 	}
 

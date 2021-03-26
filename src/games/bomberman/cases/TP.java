@@ -1,8 +1,9 @@
 package games.bomberman.cases;
 
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.Sound;
+import org.newdawn.slick.openal.Audio;
+
+import app.AppLoader;
 
 import games.bomberman.Case;
 import games.bomberman.Player;
@@ -11,16 +12,12 @@ import games.bomberman.World;
 public class TP extends Case {
 
 	private Case twin;
-	private static Sound sound;
+	private static Audio sound;
 	private static Image img;
 
 	static {
-		try {
-			img = new Image(World.DIRECTORY_IMAGES + "try.png");
-			sound = new Sound(World.DIRECTORY_SOUNDS_BONUS + "tp.ogg");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		img = AppLoader.loadPicture(World.DIRECTORY_IMAGES + "try.png");
+		sound = AppLoader.loadAudio(World.DIRECTORY_SOUNDS_BONUS + "tp.ogg");
 	}
 
 	public TP(World w, int i, int j, Case twin) {
@@ -33,7 +30,7 @@ public class TP extends Case {
 		if (p.isTPable()) {
 			p.setTPable(false);
 			p.setIJ(twin.getI(), twin.getJ());
-			sound.play(1, .4f);
+			sound.playAsSoundEffect(1f, .4f, false);
 		}
 	}
 

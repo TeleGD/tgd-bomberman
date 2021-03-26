@@ -8,11 +8,11 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.state.StateBasedGame;
 
 import app.AppInput;
+import app.AppLoader;
 import app.AppPlayer;
 
 import games.bomberman.cases.TP;
@@ -81,11 +81,7 @@ public class Player {
 		tpable = true;
 		invincible = false;
 		clignotement = 200;
-		try {
-			imgBouclier = new Image(World.DIRECTORY_IMAGES + "bouclier.png");
-		} catch (SlickException e1) {
-			e1.printStackTrace();
-		}
+		imgBouclier = AppLoader.loadPicture(World.DIRECTORY_IMAGES + "bouclier.png");
 		// Attribution des positions de départ en fonction du n° de joueur
 		Integer[] size = w.getBoard().getDim();
 		switch (id) {
@@ -110,48 +106,33 @@ public class Player {
 		isMovingRL = false;
 		isMovingUD = false;
 		direction = 2;
-		SpriteSheet perso;
-		try {
-			perso = new SpriteSheet(World.DIRECTORY_IMAGES + "personnage.png", 50, 50);
-			animations[0] = loadAnimation(perso, 0, 1, 0);
-			animations[1] = loadAnimation(perso, 0, 1, 1);
-			animations[2] = loadAnimation(perso, 0, 1, 2);
-			animations[3] = loadAnimation(perso, 0, 1, 3);
-			animations[4] = loadAnimation(perso, 1, 9, 0);
-			animations[5] = loadAnimation(perso, 1, 9, 1);
-			animations[6] = loadAnimation(perso, 1, 9, 2);
-			animations[7] = loadAnimation(perso, 1, 9, 3);
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
-		SpriteSheet persoSlow;
-		try {
-			persoSlow = new SpriteSheet(World.DIRECTORY_IMAGES + "personnage_slow.png", 50, 50);
-			animationsSlow[0] = loadAnimation(persoSlow, 0, 1, 0);
-			animationsSlow[1] = loadAnimation(persoSlow, 0, 1, 1);
-			animationsSlow[2] = loadAnimation(persoSlow, 0, 1, 2);
-			animationsSlow[3] = loadAnimation(persoSlow, 0, 1, 3);
-			animationsSlow[4] = loadAnimation(persoSlow, 1, 9, 0);
-			animationsSlow[5] = loadAnimation(persoSlow, 1, 9, 1);
-			animationsSlow[6] = loadAnimation(persoSlow, 1, 9, 2);
-			animationsSlow[7] = loadAnimation(persoSlow, 1, 9, 3);
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
-		SpriteSheet persoFast;
-		try {
-			persoFast = new SpriteSheet(World.DIRECTORY_IMAGES + "personnage_fast.png", 50, 50);
-			animationsFast[0] = loadAnimation(persoFast, 0, 1, 0);
-			animationsFast[1] = loadAnimation(persoFast, 0, 1, 1);
-			animationsFast[2] = loadAnimation(persoFast, 0, 1, 2);
-			animationsFast[3] = loadAnimation(persoFast, 0, 1, 3);
-			animationsFast[4] = loadAnimation(persoFast, 1, 9, 0);
-			animationsFast[5] = loadAnimation(persoFast, 1, 9, 1);
-			animationsFast[6] = loadAnimation(persoFast, 1, 9, 2);
-			animationsFast[7] = loadAnimation(persoFast, 1, 9, 3);
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		SpriteSheet perso = new SpriteSheet(AppLoader.loadPicture(World.DIRECTORY_IMAGES + "personnage.png"), 50, 50);
+		animations[0] = loadAnimation(perso, 0, 1, 0);
+		animations[1] = loadAnimation(perso, 0, 1, 1);
+		animations[2] = loadAnimation(perso, 0, 1, 2);
+		animations[3] = loadAnimation(perso, 0, 1, 3);
+		animations[4] = loadAnimation(perso, 1, 9, 0);
+		animations[5] = loadAnimation(perso, 1, 9, 1);
+		animations[6] = loadAnimation(perso, 1, 9, 2);
+		animations[7] = loadAnimation(perso, 1, 9, 3);
+		SpriteSheet persoSlow = new SpriteSheet(AppLoader.loadPicture(World.DIRECTORY_IMAGES + "personnage_slow.png"), 50, 50);
+		animationsSlow[0] = loadAnimation(persoSlow, 0, 1, 0);
+		animationsSlow[1] = loadAnimation(persoSlow, 0, 1, 1);
+		animationsSlow[2] = loadAnimation(persoSlow, 0, 1, 2);
+		animationsSlow[3] = loadAnimation(persoSlow, 0, 1, 3);
+		animationsSlow[4] = loadAnimation(persoSlow, 1, 9, 0);
+		animationsSlow[5] = loadAnimation(persoSlow, 1, 9, 1);
+		animationsSlow[6] = loadAnimation(persoSlow, 1, 9, 2);
+		animationsSlow[7] = loadAnimation(persoSlow, 1, 9, 3);
+		SpriteSheet persoFast = new SpriteSheet(AppLoader.loadPicture(World.DIRECTORY_IMAGES + "personnage_fast.png"), 50, 50);
+		animationsFast[0] = loadAnimation(persoFast, 0, 1, 0);
+		animationsFast[1] = loadAnimation(persoFast, 0, 1, 1);
+		animationsFast[2] = loadAnimation(persoFast, 0, 1, 2);
+		animationsFast[3] = loadAnimation(persoFast, 0, 1, 3);
+		animationsFast[4] = loadAnimation(persoFast, 1, 9, 0);
+		animationsFast[5] = loadAnimation(persoFast, 1, 9, 1);
+		animationsFast[6] = loadAnimation(persoFast, 1, 9, 2);
+		animationsFast[7] = loadAnimation(persoFast, 1, 9, 3);
 	}
 
 	public void update(GameContainer container, StateBasedGame game, int delta) {

@@ -3,9 +3,10 @@ package games.bomberman.bonuses;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.Sound;
+import org.newdawn.slick.openal.Audio;
 import org.newdawn.slick.state.StateBasedGame;
+
+import app.AppLoader;
 
 import games.bomberman.Bonus;
 import games.bomberman.Player;
@@ -18,18 +19,14 @@ public class Range extends Bonus {
 	private boolean add;
 	private static Image sprite0;
 	private static Image sprite1;
-	private static Sound sound0;
-	private static Sound sound1;
+	private static Audio sound0;
+	private static Audio sound1;
 
 	static {
-		try {
-			sprite0 = new Image(World.DIRECTORY_IMAGES + "bonus_range0.png");
-			sprite1 = new Image(World.DIRECTORY_IMAGES + "bonus_range1.png");
-			sound0 = new Sound(World.DIRECTORY_SOUNDS_BONUS + "charger.ogg");
-			sound1 = new Sound(World.DIRECTORY_SOUNDS_BONUS + "bemol.ogg");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		sprite0 = AppLoader.loadPicture(World.DIRECTORY_IMAGES + "bonus_range0.png");
+		sprite1 = AppLoader.loadPicture(World.DIRECTORY_IMAGES + "bonus_range1.png");
+		sound0 = AppLoader.loadAudio(World.DIRECTORY_SOUNDS_BONUS + "charger.ogg");
+		sound1 = AppLoader.loadAudio(World.DIRECTORY_SOUNDS_BONUS + "bemol.ogg");
 	}
 
 	public Range(int caseX, int caseY) {
@@ -51,13 +48,12 @@ public class Range extends Bonus {
 			this.activated = true;
 			if (add) {
 				player.addRange(1);
-				sound0.play(1, 1f);
+				sound0.playAsSoundEffect(1f, 1f, false);
 			} else {
 				player.addRange(-1);
-				sound1.play(1, .4f);
+				sound1.playAsSoundEffect(1f, .4f, false);
 			}
 			this.deleted = true;
-			// sound.play (1, .4f);
 		}
 	}
 

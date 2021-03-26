@@ -1,19 +1,17 @@
 package games.bomberman;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Music;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.Sound;
+import org.newdawn.slick.openal.Audio;
 import org.newdawn.slick.state.StateBasedGame;
 
 import app.AppGame;
 import app.AppInput;
+import app.AppLoader;
 import app.AppWorld;
 
 import games.bomberman.bonuses.Accelerate;
@@ -29,12 +27,11 @@ import games.bomberman.cases.Ground;
 
 public class World extends AppWorld {
 
-	public final static String GAME_FOLDER_NAME = "bomberman";
-	public final static String DIRECTORY_SOUNDS = "sounds" + File.separator + GAME_FOLDER_NAME + File.separator;
-	public final static String DIRECTORY_MUSICS = "musics" + File.separator + GAME_FOLDER_NAME + File.separator;
-	public final static String DIRECTORY_IMAGES = "images" + File.separator + GAME_FOLDER_NAME + File.separator;
-	public final static String DIRECTORY_SOUNDS_BONUS = DIRECTORY_SOUNDS + "bonuses" + File.separator;
-	public final static String DIRECTORY_SOUNDS_BOMBS = DIRECTORY_SOUNDS + "bombs" + File.separator;
+	public final static String DIRECTORY_SOUNDS = "/sounds/bomberman/";
+	public final static String DIRECTORY_MUSICS = "/musics/bomberman/";
+	public final static String DIRECTORY_IMAGES = "/images/bomberman/";
+	public final static String DIRECTORY_SOUNDS_BONUS = DIRECTORY_SOUNDS + "bonuses/";
+	public final static String DIRECTORY_SOUNDS_BOMBS = DIRECTORY_SOUNDS + "bombs/";
 	private Board board;
 	private int time;
 	private int width;
@@ -44,26 +41,15 @@ public class World extends AppWorld {
 	private List<Bomb> bombs;
 
 	private ArrayList<Player> morts;
-	private static Music music;
-	private static Sound poseBombe;
-	private static Sound theEnd;
+	private static Audio music;
+	private static Audio poseBombe;
+	private static Audio theEnd;
+	private float musicPos;
 
 	static {
-		try {
-			music = new Music(DIRECTORY_MUSICS + "amazon_rain_2.ogg");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
-		try {
-			poseBombe = new Sound(DIRECTORY_SOUNDS_BOMBS + "pose_bombe_3.ogg");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
-		try {
-			theEnd = new Sound(DIRECTORY_SOUNDS_BOMBS + "criWilhelm.ogg");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		music = AppLoader.loadAudio(DIRECTORY_MUSICS + "amazon_rain_2.ogg");
+		poseBombe = AppLoader.loadAudio(DIRECTORY_SOUNDS_BOMBS + "pose_bombe_3.ogg");
+		theEnd = AppLoader.loadAudio(DIRECTORY_SOUNDS_BOMBS + "criWilhelm.ogg");
 	}
 
 	public World(int ID) {
@@ -80,7 +66,7 @@ public class World extends AppWorld {
 		appInput.clearKeyPressedRecord();
 		appInput.clearControlPressedRecord();
 		time = 30000;
-		music.loop(1, .5f);
+		music.playAsMusic(1f, .5f, true);
 		int n = appGame.appPlayers.size();
 		this.width = container.getWidth();
 		this.height = container.getHeight();
@@ -96,12 +82,19 @@ public class World extends AppWorld {
 
 	@Override
 	public void pause(GameContainer container, StateBasedGame game) {
-		music.pause();
+		this.musicPos = music.getPosition();
+		music.stop();
 	}
 
 	@Override
 	public void resume(GameContainer container, StateBasedGame game) {
-		music.resume();
+		music.playAsMusic(1f, .5f, true);
+		music.setPosition(this.musicPos);
+	}
+
+	@Override
+	public void stop(GameContainer container, StateBasedGame game) {
+		music.stop();
 	}
 
 	public void end() {
@@ -123,7 +116,7 @@ public class World extends AppWorld {
 		}
 		for (int i = players.size() - 1; i >= 0; i--) {
 			if (players.get(i).getLife() <= 0) {
-				theEnd.play(1, 1f);
+				theEnd.playAsSoundEffect(1f, 1f, false);
 				morts.add(players.get(i));
 				players.remove(i);
 				if (players.size() == 0) {
@@ -221,7 +214,7 @@ public class World extends AppWorld {
 	}
 
 	public void addBomb(int numJoueur, int i, int j, int porteep, int tpsRestantp) {
-		poseBombe.play(1, .4f);
+		poseBombe.playAsSoundEffect(1f, .4f, false);
 		bombs.add(new Bomb(this, numJoueur, i, j, porteep, tpsRestantp));
 		board.getCase(i, j).setBomb(bombs.get(bombs.size() - 1));
 	}
